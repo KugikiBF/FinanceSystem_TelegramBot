@@ -16,6 +16,8 @@ class ControleFinanceiro:
             "Entradas": ['Pagamentos', 'Presentes', 'Rendimentos']
         }
         self.df = self._criar_carregar()
+        if not os.path.exists('static'):
+            os.makedirs('static')
 
     def _criar_carregar(self):
         if os.path.exists(self.arquivo):
@@ -246,8 +248,11 @@ class ControleFinanceiro:
         self._formatar()
         return ("✅ *Último lançamento removido com sucesso!*")
 
-    def adicionar_lancamento_telegram (self,valor,descricao,categoria):
-        tipo = 'Entrada' if categoria in self.categorias ['Entradas'] else 'Saida'
+    def adicionar_lancamento_telegram (self,valor,descricao,categoria,status='Pago'):
+        if categoria not in self.categorias['Entradas'] and categoria not in self.categorias['Saidas']:
+            return f"Ops... a categoria '{categoria}' não existe.\nTente essas:\n🟩Entradas: {', '.join(self.categorias['Entradas'])}.\n🟥Saidas: {', '.join(self.categorias['Saidas'])}."
+        else: 
+            tipo="Entrada" if categoria in self.categorias['Entradas'] else "Saida"
         data= datetime.now().strftime("%Y-%m-%d")
         nova_linha = {
             'Tipo': tipo,
@@ -255,7 +260,7 @@ class ControleFinanceiro:
             'Categoria': categoria,
             'Valor': float(valor),
             'Vencimento': data,
-            'Status': 'Pago' 
+            'Status': status 
         }
         self.salvar_excel(nova_linha)
         return f"✅ {tipo} de R$ {valor} em '{descricao}' salva!"
@@ -264,7 +269,7 @@ class ControleFinanceiro:
     def grafico_lucro_telegram(self):
         erro=self._verificar_df()
         if erro:
-            return print(erro)
+            return erro
         soma_entrada=self.df[self.df['Tipo'] == 'Entrada']['Valor'].sum()
         soma_saida=self.df[self.df['Tipo'] == 'Saida']['Valor'].sum()
         saldo=soma_entrada-soma_saida
@@ -290,7 +295,7 @@ class ControleFinanceiro:
     def grafico_setor_telegram(self):
         erro = self._verificar_df()
         if erro:
-            return print(erro)
+            return erro
             
         df_saidas = self.df[self.df['Tipo'] == 'Saida'].copy()
         if df_saidas.empty:
@@ -326,7 +331,7 @@ class ControleFinanceiro:
     def grafico_gerais_telegram(self):
         erro=self._verificar_df()
         if erro:
-            return print(erro)
+            return erro
         df_saidas = self.df[self.df['Tipo'] == 'Saida'].copy()
         total_pago = df_saidas[df_saidas['Status'] == 'Pago']['Valor'].sum()
         total_pendente = df_saidas[df_saidas['Status'] == 'Pendente']['Valor'].sum()

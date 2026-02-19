@@ -6,22 +6,52 @@ bot=telebot.TeleBot("8594534195:AAESzmzrHWaG7Yb-s54wqsclK3iGPYExuGk")
 sistema=ControleFinanceiro()
 
 
-@bot.message_handler(commands=['start','help'])
+@bot.message_handler(commands=['start', 'help'])
 def enviar_boas_vindas(message):
-    bot.reply_to(message,"💰 *Sistema Financeiro Ativo!*\n\n"
-                          "Para salvar use: `Valor Descrição Categoria`\n"
-                          "Ex: `100 pizza lazer`\n\n"
-                          "Comandos:\n/resumo - Ver gráficos", 
-                          parse_mode='Markdown')
+    manual = (
+        "💰 *Gestor Financeiro Ativo!*\n\n"
+        "✨ *Como registrar:* `Valor Descrição Categoria`\n"
+        "💡 _Dica: 3 palavras = Pago | 4 palavras ou mais = Pendente_\n\n"
+        "📊 *Relatórios Visual:* \n"
+        "/setor - Gastos por categoria (Pizza)\n"
+        "/gerais - Status de Pagamento (Barras)\n"
+        "/balanco - Lucro vs Prejuízo\n\n"
+        "🛠 *Utilidades:*\n"
+        "/buscar `termo` - Filtra por descrição\n"
+        "/excluir - Remove o último lançamento\n"
+        "/help - Mostra esta mensagem"
+    )
+    bot.reply_to(message, manual, parse_mode='Markdown')
     
 
-@bot.message_handler(commands=['resumo'])
-def mostrar_resumo(message):
+@bot.message_handler(commands=['setor'])
+def resumo_setor(message):
     bot.send_message(message.chat.id, "📊 Gerando seus relatórios, aguarde...")
     sistema.grafico_setor_telegram()
     with open ('static/pizza.png','rb') as foto:
-        bot.send_photo(message.chat.id, foto, caption='Gastos por Categoria')
+        bot.send_photo(message.chat.id, foto, caption='💲Gastos por Categoria')
     bot.send_message(message.chat.id, sistema.historico_contas(), parse_mode='Markdown')
+
+
+@bot.message_handler(commands=['gerais'])
+def resumo_gerais(message):
+    bot.send_message(message.chat.id, "📊 Gerando seus relatórios, aguarde...")
+    sistema.grafico_gerais_telegram()
+    with open ('static/gerais.png','rb') as foto:
+        bot.send_photo(message.chat.id, foto, caption='💲Gastos Pendentes/Pagos')
+    bot.send_message(message.chat.id, sistema.historico_contas(), parse_mode='Markdown')
+
+
+
+
+@bot.message_handler(commands=['balanço','balanco'])
+def balanco_mensal(message):
+    bot.send_message(message.chat.id, "📊 Gerando seus relatórios, aguarde...")
+    sistema.grafico_lucro_telegram()
+    with open ('static/lucro.png','rb') as foto:
+        bot.send_photo(message.chat.id, foto, caption='💲Balanço Mensal')
+    bot.send_message(message.chat.id, sistema.historico_contas(), parse_mode='Markdown')
+
 
 
 @bot.message_handler(commands=['buscar'])
@@ -44,13 +74,14 @@ def excluir(message):
 def adicionar_gasto(message):
     divisor = message.text.split()
     
-    if len(divisor) == 3:
+    if len(divisor) >= 3:
         try:
             valor_limpo = divisor[0].replace(',', '.')
             valor = float(valor_limpo)
             desc = divisor[1]
             cat = divisor[2].capitalize()
-            res = sistema.adicionar_lancamento_telegram(valor, desc, cat)
+            status="Pago" if len(divisor) == 3 else "Pendente"
+            res = sistema.adicionar_lancamento_telegram(valor, desc, cat,status)
             bot.reply_to(message, res)
             
         except ValueError:
