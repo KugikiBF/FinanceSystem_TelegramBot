@@ -1,24 +1,43 @@
-<div align="center">
+# 💰 FinanceBot — Intelligence & Data Analytics
 
-💰 FINANCEBOT — DATA INTELLIGENCE
-🚀 Gestão Financeira Autônoma via Telegram & Python
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black)
+![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
+
 Interface ágil para registros rápidos | Relatórios visuais instantâneos | Persistência em Excel
 
-</div>
+---
 
-📌 SOBRE O PROJETO
-O FinanceBot é uma solução de Engenharia de Software focada em resolver o problema da complexidade em apps financeiros. Utilizando a API do Telegram, ele transforma mensagens de texto em dados estruturados dentro de um ecossistema de BI.
+## 📌 Sobre o Projeto
 
-⚙️ ARQUITETURA TÉCNICA
-🧪 Core Engine
-Data Parsing: Lógica em Python para extrair Valor, Descrição e Categoria de strings informais.
+O **FinanceBot** é uma solução de Engenharia de Software focada em resolver a complexidade de apps financeiros tradicionais. Utilizando a API do Telegram, o sistema transforma mensagens de texto informais em dados estruturados para análise de BI.
 
-Pandas Integration: O coração do projeto. Realiza o merge, filter e sum dos dados para gerar os DataFrames de saída.
 
-Automated Viz: Uso do Matplotlib com backend Agg para renderizar gráficos diretamente no servidor e enviá-los como .png.
 
-👨‍💻 Connect with me
-<p align="left">
-<a href="https://www.linkedin.com/in/bruno-felipe-7956bb351/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="Bruno Felipe" height="30" width="40" /></a>
-<a href="https://github.com/KugikiBF" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="KugikiBF" height="30" width="40" /></a>
-</p>
+---
+
+## ⚙️ Arquitetura Técnica
+
+### 🧪 Core Engine
+* **Data Parsing:** Algoritmo em Python para extração de `Valor`, `Descrição` e `Categoria` via inputs de texto.
+* **Pandas Integration:** O motor do projeto. Realiza o tratamento, filtragem e soma de dados para geração de DataFrames.
+* **Automated Viz:** Implementação de `Matplotlib` com backend `Agg` para renderização de gráficos em tempo real no servidor.
+
+---
+
+## 📊 Business Intelligence (BI)
+
+| Comando | Análise Realizada | Visualização |
+| :--- | :--- | :--- |
+| `/setor` | **Pareto de Gastos** | Gráfico de Pizza dinâmico |
+| `/gerais` | **Cash Flow Status** | Comparativo Pago vs. Pendente |
+| `/balanco` | **Net Profit** | Indicador de Lucro ou Prejuízo |
+
+---
+
+## 🚀 Setup do Ambiente
+
+1. **Instale as dependências:**
+   ```bash
+   pip install pandas matplotlib pyTelegramBotAPI openpyxl
