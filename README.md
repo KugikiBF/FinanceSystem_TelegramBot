@@ -41,3 +41,7 @@ O **FinanceBot** é uma solução de Engenharia de Software focada em resolver a
 1. **Instale as dependências:**
    ```bash
    pip install pandas matplotlib pyTelegramBotAPI openpyxl
+2. **Crie o diretório necessário:**
+   mkdir static
+3. **Inicie a aplicação:**
+   python bot_telegram.py
