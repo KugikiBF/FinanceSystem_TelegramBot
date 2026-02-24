@@ -13,7 +13,7 @@ Status: Versão 1.0 (Concluída - Foco em estudos e concurso)
 """
 
 
-bot=telebot.TeleBot("8594534195:AAESzmzrHWaG7Yb-s54wqsclK3iGPYExuGk")
+bot=telebot.TeleBot("Seu Token AQUI")
 sistema=ControleFinanceiro()
 
 
