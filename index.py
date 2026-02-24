@@ -7,6 +7,15 @@ from openpyxl import load_workbook
 import os
 
 
+
+
+"""
+Projeto: Gestor Financeiro via Telegram
+Autor: Bruno - Estudante de Engenharia de Software (Estácio)
+Descrição: Sistema de controle financeiro com Pandas e Telebot.
+Status: Versão 1.0 (Concluída - Foco em estudos e concurso)
+"""
+
 class ControleFinanceiro:
 
     def __init__(self,arquivo="Minhas_Contas.xlsx"):
